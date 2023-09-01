@@ -26,7 +26,7 @@ io.on("connection",(socket)=>{
             format: 'pem',
           }
     })
-    console.log("Server public key",publicKey)
+    console.log("Sending Server public key",publicKey)
     socket.emit("ServerPublicKey",publicKey)
     socket.on("ClientPublicKey",(publicKey)=>{
         console.log("Received Public key:",publicKey)
@@ -35,7 +35,6 @@ io.on("connection",(socket)=>{
     readline.on('line',(data)=>{
         const encryptedMessage=crypto.publicEncrypt({
             key:clientPublicKey,
-            oaepHash:"sha1"
         },
         Buffer.from(data))
         console.log("Send Encrypted Message",encryptedMessage)
@@ -47,7 +46,7 @@ io.on("connection",(socket)=>{
         console.log("Received Encrypted Message:",data)
         const decryptedMessage=crypto.privateDecrypt({
             key:privateKey,
-            oaepHash:"sha1"
+
         },
         Buffer.from(data))
         console.log("Decrypted Message:",decryptedMessage.toString())
